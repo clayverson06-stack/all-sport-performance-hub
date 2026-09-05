@@ -77,14 +77,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Plataforma Multideporte Pro" },
+      {
+        name: "description",
+        content:
+          "+5.000 entrenamientos de básquetbol, vóleibol, futsal y fútbol de campo, más guía nutricional profesional. Acceso de por vida.",
+      },
+      { property: "og:title", content: "Plataforma Multideporte Pro" },
+      {
+        property: "og:description",
+        content:
+          "Todo lo que necesitas para rendir al máximo, en una sola plataforma.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
