@@ -44,7 +44,8 @@ async function handleMetaCapi(request: Request, env: unknown): Promise<Response>
 
   const accessToken = getMetaToken(env);
   if (!accessToken) {
-    return Response.json({ ok: false, configured: false }, { status: 503 });
+    // Not configured (e.g. dev): succeed silently so tracking never surfaces as an app error.
+    return Response.json({ ok: true, configured: false }, { status: 200 });
   }
 
   try {
