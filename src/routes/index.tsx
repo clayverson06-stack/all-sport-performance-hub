@@ -9,20 +9,20 @@ const META_PIXEL_ID = "889185807027175";
 const VIDEO_SRC = "/WhatsApp Video 2026-09-04 at 23.17.19.mp4";
 
 const TESTIMONIALS = [
-  { name: "Carlos Mendoza", role: "Entrenador de basquetbol", quote: "Antes perdía mucho tiempo buscando ejercicios. Ahora con Multideporte Pro tengo más de 1.000 entrenamientos listos y mis jugadores mejoraron la técnica en pocas semanas.", image: "/Captura de Tela 2026-09-04 às 22.01.20.png", sport: "🏀" },
-  { name: "Valentina Ríos", role: "Jugadora de vóley", quote: "Los ejercicios están muy bien explicados y se notan resultados rápido. Subí mi nivel de ataque y recepción en menos de un mes.", image: "/Captura de Tela 2026-09-04 às 22.01.38.png", sport: "🏐" },
-  { name: "Andrés López", role: "Entrenador de fútbol", quote: "Los más de 2.000 ejercicios de fútbol de campo son una joya. Organizo sesiones completas en minutos y el equipo se ve mucho más intenso.", image: "/Captura de Tela 2026-09-04 às 22.01.49.png", sport: "⚽" },
-  { name: "Mateo Vargas", role: "Jugador de futsal", quote: "Encontré ejercicios específicos de pivote, defensa y finalización que no veía en ningún lado. Mi rendimiento en partidos cambió bastante.", image: "/Captura de Tela 2026-09-04 às 22.02.24.png", sport: "⚽" },
-  { name: "Lucía Fernández", role: "Jugadora de básquet", quote: "Me encanta poder entrenar sola con los videos. Mejoré mi tiro libre y mi juego de pies sin necesitar un entrenador todos los días.", image: "/Captura de Tela 2026-09-04 às 22.02.53.png", sport: "🏀" },
-  { name: "Diego Ramírez", role: "Entrenador de vóley", quote: "La calidad de los entrenamientos es profesional. Mis equipos de categoría juvenil mejoraron el bloqueo y la recepción de forma notable.", image: "/Captura de Tela 2026-09-04 às 22.03.30.png", sport: "🏐" },
-  { name: "Sofía Herrera", role: "Jugadora de fútbol", quote: "El paquete completo vale totalmente la pena. Además del fútbol, la guía nutricional me ayudó a tener más energía en los entrenamientos.", image: "/Captura de Tela 2026-09-04 às 22.03.42.png", sport: "⚽" },
+  { name: "Carlos Mendoza", role: "Entrenador de basquetbol", quote: "Antes perdía mucho tiempo buscando ejercicios. Ahora con Multideporte Pro tengo más de 1.000 entrenamientos listos y mis jugadores mejoraron la técnica en pocas semanas.", image: "/dep-basquetbol.png", sport: "🏀" },
+  { name: "Valentina Ríos", role: "Jugadora de vóley", quote: "Los ejercicios están muy bien explicados y se notan resultados rápido. Subí mi nivel de ataque y recepción en menos de un mes.", image: "/dep-voleibol.png", sport: "🏐" },
+  { name: "Andrés López", role: "Entrenador de fútbol", quote: "Los más de 2.000 ejercicios de fútbol de campo son una joya. Organizo sesiones completas en minutos y el equipo se ve mucho más intenso.", image: "/dep-futsal.png", sport: "⚽" },
+  { name: "Mateo Vargas", role: "Jugador de futsal", quote: "Encontré ejercicios específicos de pivote, defensa y finalización que no veía en ningún lado. Mi rendimiento en partidos cambió bastante.", image: "/dep-futbol.png", sport: "⚽" },
+  { name: "Lucía Fernández", role: "Jugadora de básquet", quote: "Me encanta poder entrenar sola con los videos. Mejoré mi tiro libre y mi juego de pies sin necesitar un entrenador todos los días.", image: "/test-2.png", sport: "🏀" },
+  { name: "Diego Ramírez", role: "Entrenador de vóley", quote: "La calidad de los entrenamientos es profesional. Mis equipos de categoría juvenil mejoraron el bloqueo y la recepción de forma notable.", image: "/test-3.png", sport: "🏐" },
+  { name: "Sofía Herrera", role: "Jugadora de fútbol", quote: "El paquete completo vale totalmente la pena. Además del fútbol, la guía nutricional me ayudó a tener más energía en los entrenamientos.", image: "/test-4.png", sport: "⚽" },
 ];
 
 const SPORTS = [
-  { title: "+1.000 Entrenamientos de Básquetbol", text: "Técnica, tiro, defensa, coordinación y trabajo físico específico.", icon: "🏀", image: "/Captura de Tela 2026-09-04 às 22.01.20.png" },
-  { title: "+1.000 Entrenamientos de Vóleibol", text: "Saque, recepción, ataque y bloqueo organizados para entrenar mejor.", icon: "🏐", image: "/Captura de Tela 2026-09-04 às 22.01.38.png" },
-  { title: "+1.000 Entrenamientos de Futsal", text: "Táctica, definición, control y toma de decisiones bajo presión.", icon: "⚽", image: "/Captura de Tela 2026-09-04 às 22.01.49.png" },
-  { title: "+2.000 Ejercicios de Fútbol de Campo", text: "Contenido organizado para planificar sesiones completas.", icon: "🥅", image: "/Captura de Tela 2026-09-04 às 22.02.24.png" },
+  { title: "+1.000 Entrenamientos de Básquetbol", text: "Técnica, tiro, defensa, coordinación y trabajo físico específico.", icon: "🏀", image: "/dep-basquetbol.png" },
+  { title: "+1.000 Entrenamientos de Vóleibol", text: "Saque, recepción, ataque y bloqueo organizados para entrenar mejor.", icon: "🏐", image: "/dep-voleibol.png" },
+  { title: "+1.000 Entrenamientos de Futsal", text: "Táctica, definición, control y toma de decisiones bajo presión.", icon: "⚽", image: "/dep-futsal.png" },
+  { title: "+2.000 Ejercicios de Fútbol de Campo", text: "Contenido organizado para planificar sesiones completas.", icon: "🥅", image: "/dep-futbol.png" },
 ];
 
 const FAQS = [
@@ -230,7 +230,7 @@ function Index() {
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">🥅</div><b className="mt-2 block text-sm">+2.000 Fútbol</b></div>
           </div>
           <div className="mt-4 rounded-2xl bg-orange-50 p-4 text-sm font-black text-orange-800">🥗 +100 planes nutricionales educativos</div>
-          <button onClick={openVsl} className="mp-cta mt-7 rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER LA VSL</button>
+          <button onClick={openVsl} className="mp-cta mt-7 rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER EL VIDEO</button>
           <div className="mt-4 text-[11px] font-bold uppercase tracking-wider text-slate-400">🔒 La oferta se habilita después de 1:25</div>
         </div>
       </section>
