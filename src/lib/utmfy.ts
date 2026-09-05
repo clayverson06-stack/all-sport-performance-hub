@@ -22,7 +22,7 @@ export function loadUtmfyScript() {
     });
     if (!s_aj.url) return;
     const script = document.createElement("script");
-    script.dataset.utmfy = "true";
+    script.dataset["utmfy"] = "true";
     script.src = s_aj.url;
     script.async = true;
     script.defer = true;
