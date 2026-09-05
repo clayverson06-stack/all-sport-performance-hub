@@ -22,11 +22,11 @@ async function getServerEntry(): Promise<ServerEntry> {
 
 function getMetaToken(env: unknown): string | undefined {
   const runtime = (env && typeof env === "object" ? env : {}) as Record<string, unknown>;
-  const fromRuntime = runtime.META_CAPI_ACCESS_TOKEN;
+  const fromRuntime = runtime["META_CAPI_ACCESS_TOKEN"];
   if (typeof fromRuntime === "string" && fromRuntime.length > 0) return fromRuntime;
 
   try {
-    const fromProcess = (globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }).process?.env?.META_CAPI_ACCESS_TOKEN;
+    const fromProcess = (globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }).process?.env?.["META_CAPI_ACCESS_TOKEN"];
     return fromProcess;
   } catch {
     return undefined;
@@ -66,8 +66,8 @@ async function handleMetaCapi(request: Request, env: unknown): Promise<Response>
     };
     const fbp = getCookie(request, "_fbp");
     const fbc = getCookie(request, "_fbc");
-    if (fbp) userData.fbp = fbp;
-    if (fbc) userData.fbc = fbc;
+    if (fbp) userData["fbp"] = fbp;
+    if (fbc) userData["fbc"] = fbc;
 
     const payload = {
       data: [
