@@ -1,0 +1,56 @@
+/* Lovable badge removal requested for this landing page */
+a[href*="lovable.dev"],
+iframe[src*="lovable.dev"],
+div[style*="Edit with Lovable"],
+.lovable-badge {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
+
+.mp-page { overflow-x: hidden; }
+.mp-no-scroll { overflow: hidden; }
+
+.mp-hero {
+  background:
+    radial-gradient(circle at 15% 15%, rgba(249,115,22,.18), transparent 28%),
+    radial-gradient(circle at 85% 25%, rgba(59,130,246,.16), transparent 30%),
+    linear-gradient(135deg, #07111f 0%, #0b1728 48%, #111827 100%);
+}
+
+.mp-glow { box-shadow: 0 0 0 1px rgba(255,255,255,.08), 0 30px 80px rgba(0,0,0,.32); }
+.mp-card { box-shadow: 0 18px 55px rgba(15,23,42,.10); }
+.mp-featured { box-shadow: 0 25px 70px rgba(249,115,22,.22); }
+
+.mp-cta {
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 14px 35px rgba(249,115,22,.28);
+}
+.mp-cta:hover { transform: translateY(-2px); box-shadow: 0 18px 45px rgba(249,115,22,.38); }
+
+.mp-vsl-backdrop { background: rgba(2,6,23,.94); backdrop-filter: blur(8px); }
+.mp-modal { animation: mp-in .22s ease-out; }
+
+@keyframes mp-in { from { opacity: 0; transform: scale(.97) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+.mp-video-shell video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+
+.mp-testimonial-image {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+}
+
+.mp-sport-image {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.mp-offer-highlight { scroll-margin-top: 24px; }
+
+@media (max-width: 640px) {
+  .mp-video-shell { height: 76vh; }
+}
