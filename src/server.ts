@@ -3,6 +3,8 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
+const META_PIXEL_ID = "889185807027175";
+
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
@@ -18,8 +20,85 @@ async function getServerEntry(): Promise<ServerEntry> {
   return serverEntryPromise;
 }
 
-// h3 swallows in-handler throws into a normal 500 Response with body
-// {"unhandled":true,"message":"HTTPError"} — try/catch alone never fires for those.
+function getMetaToken(env: unknown): string | undefined {
+  const runtime = (env && typeof env === "object" ? env : {}) as Record<string, unknown>;
+  const fromRuntime = runtime.META_CAPI_ACCESS_TOKEN;
+  if (typeof fromRuntime === "string" && fromRuntime.length > 0) return fromRuntime;
+
+  try {
+    const fromProcess = (globalThis as typeof globalThis & { process?: { env?: Record<string, string | undefined> } }).process?.env?.META_CAPI_ACCESS_TOKEN;
+    return fromProcess;
+  } catch {
+    return undefined;
+  }
+}
+
+function getCookie(request: Request, name: string): string | undefined {
+  const cookie = request.headers.get("cookie") ?? "";
+  const match = cookie.match(new RegExp(`(?:^|;\\s*)${name}=([^;]+)`));
+  return match?.[1];
+}
+
+async function handleMetaCapi(request: Request, env: unknown): Promise<Response> {
+  if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
+
+  const accessToken = getMetaToken(env);
+  if (!accessToken) {
+    return Response.json({ ok: false, configured: false }, { status: 503 });
+  }
+
+  try {
+    const body = (await request.json()) as {
+      event_name?: string;
+      event_id?: string;
+      custom_data?: Record<string, unknown>;
+      url?: string;
+    };
+
+    const allowedEvents = new Set(["PageView", "ViewContent", "Lead", "InitiateCheckout"]);
+    if (!body.event_name || !allowedEvents.has(body.event_name)) {
+      return Response.json({ ok: false, error: "Invalid event" }, { status: 400 });
+    }
+
+    const userData: Record<string, string> = {
+      client_user_agent: request.headers.get("user-agent") ?? "",
+    };
+    const fbp = getCookie(request, "_fbp");
+    const fbc = getCookie(request, "_fbc");
+    if (fbp) userData.fbp = fbp;
+    if (fbc) userData.fbc = fbc;
+
+    const payload = {
+      data: [
+        {
+          event_name: body.event_name,
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: body.event_id,
+          action_source: "website",
+          event_source_url: body.url ?? request.headers.get("referer") ?? "",
+          user_data: userData,
+          custom_data: body.custom_data ?? {},
+        },
+      ],
+    };
+
+    const response = await fetch(`https://graph.facebook.com/v23.0/${META_PIXEL_ID}/events?access_token=${encodeURIComponent(accessToken)}`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const result = await response.text();
+    return new Response(result, {
+      status: response.status,
+      headers: { "content-type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Meta CAPI error", error);
+    return Response.json({ ok: false }, { status: 500 });
+  }
+}
+
 async function normalizeCatastrophicSsrResponse(response: Response): Promise<Response> {
   if (response.status < 500) return response;
   const contentType = response.headers.get("content-type") ?? "";
@@ -47,6 +126,9 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const url = new URL(request.url);
+      if (url.pathname === "/api/meta-capi") return await handleMetaCapi(request, env);
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
