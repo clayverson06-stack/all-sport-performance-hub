@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import "../Index.css";
+import videoThumbnail from "../assets/video-thumbnail.jpg";
 
 const CHECKOUT_BASICO = "https://pay.hotmart.com/P107284207G?checkoutMode=10";
 const CHECKOUT_COMPLETO = "https://pay.hotmart.com/B107478096K?checkoutMode=10";
@@ -85,10 +86,7 @@ function ScarcityModal({ pkg, onClose }: { pkg: PackageId; onClose: () => void }
       <div className="mp-modal w-full max-w-md rounded-[28px] bg-white p-6 shadow-2xl sm:p-8">
         <div className="mb-3 text-center text-3xl">⏳</div>
         <h3 className="text-center text-2xl font-black leading-tight text-slate-950">¡Espera! Esta puede ser tu última oportunidad a este precio</h3>
-        <div className="mt-6 rounded-2xl bg-slate-950 py-5 text-center">
-          <span className="text-5xl font-black tabular-nums tracking-tight text-orange-400">{mm}:{ss}</span>
-          <div className="mt-1 text-[11px] font-bold uppercase tracking-[.2em] text-white/50">precio de lanzamiento</div>
-        </div>
+        <div className="mt-6 rounded-2xl bg-slate-950 py-5 text-center"><span className="text-5xl font-black tabular-nums tracking-tight text-orange-400">{mm}:{ss}</span><div className="mt-1 text-[11px] font-bold uppercase tracking-[.2em] text-white/50">precio de lanzamiento</div></div>
         <p className="mt-5 text-center text-sm leading-6 text-slate-600">Estás a un paso de asegurar tu acceso. Este precio de lanzamiento es exclusivo para quienes actúan ahora — cuando el cronómetro llegue a cero, el precio puede subir sin previo aviso.</p>
         <div className="mt-4 rounded-xl bg-orange-50 px-4 py-3 text-center text-xs font-extrabold uppercase tracking-wide text-orange-700">Paquete seleccionado: {pkg === "completo" ? "Completo" : "Básico"}</div>
         <button onClick={goCheckout} className="mp-cta mt-5 w-full rounded-2xl bg-orange-500 px-5 py-4 text-base font-black text-white">Confirmar mi Acceso Ahora →</button>
@@ -128,13 +126,17 @@ function VslModal({ onClose, onUnlocked }: { onClose: () => void; onUnlocked: ()
       <div className="mp-video-shell relative mx-auto flex min-h-0 w-full flex-1 items-center justify-center px-0 sm:px-6">
         <video
           src={VIDEO_SRC}
+          poster={videoThumbnail}
           controls
           playsInline
+          muted
           autoPlay
-          preload="metadata"
+          preload="auto"
+          controlsList="nodownload"
           onTimeUpdate={(e) => { if (e.currentTarget.currentTime >= 85) unlock(); }}
           onEnded={unlock}
           onPlay={() => { if (!leadTracked) { setLeadTracked(true); track("Lead", { content_name: "VSL Play" }); } }}
+          onError={(e) => { console.error("VSL video failed to load", e.currentTarget.error); }}
         />
         {!unlocked && <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-black/75 px-4 py-2 text-center text-xs font-bold text-white shadow-lg">🔒 La oferta se habilita después de 1:25</div>}
         {unlocked && <button onClick={() => { onUnlocked(); onClose(); }} className="mp-cta absolute bottom-6 left-1/2 w-[min(92%,420px)] -translate-x-1/2 rounded-2xl bg-orange-500 px-5 py-4 text-center text-base font-black text-white shadow-2xl">🔥 Ver las ofertas especiales</button>}
@@ -203,48 +205,33 @@ function Index() {
           <div className="flex items-center gap-3 font-black tracking-tight text-slate-950"><span className="grid size-10 place-items-center rounded-xl bg-orange-500 text-white">MP</span><span>Multideporte Pro</span></div>
           <span className="rounded-full bg-slate-950 px-3 py-2 text-xs font-bold text-white">♾️ Acceso de por vida</span>
         </header>
-        <div className="mx-auto max-w-7xl px-5 pb-12 pt-7 sm:px-8 sm:pt-10">
-          <div className="text-center">
-            <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-xs font-black uppercase tracking-[.14em] text-orange-700">4 deportes · 1 plataforma · contenido organizado</span>
-            <div className="mt-4 flex flex-col items-center justify-center leading-none">
-              <div className="text-[clamp(5rem,15vw,10rem)] font-black tracking-[-.07em] text-orange-500">+5.000</div>
-              <div className="-mt-1 text-[clamp(2.2rem,6vw,4.5rem)] font-black uppercase tracking-[-.04em] text-slate-950">ENTRENAMIENTOS</div>
-            </div>
-            <p className="mx-auto mt-5 max-w-4xl text-lg font-bold leading-7 text-slate-700 sm:text-2xl">Todo lo que necesitas para entrenar, mejorar y planificar tus sesiones está aquí — con miles de ejercicios de <span className="text-orange-600">básquetbol, vóleibol, futsal y fútbol de campo</span>.</p>
-          </div>
 
-          <div className="mx-auto mt-8 grid max-w-6xl gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            <div className="rounded-2xl border border-orange-200 bg-white p-4 text-center shadow-sm"><div className="text-2xl">🏀</div><div className="mt-2 text-2xl font-black text-orange-500">+1.000</div><div className="text-sm font-black uppercase text-slate-900">Básquetbol</div><div className="mt-1 text-xs font-semibold text-slate-500">entrenamientos</div></div>
-            <div className="rounded-2xl border border-blue-200 bg-white p-4 text-center shadow-sm"><div className="text-2xl">🏐</div><div className="mt-2 text-2xl font-black text-blue-600">+1.000</div><div className="text-sm font-black uppercase text-slate-900">Vóleibol</div><div className="mt-1 text-xs font-semibold text-slate-500">entrenamientos</div></div>
-            <div className="rounded-2xl border border-green-200 bg-white p-4 text-center shadow-sm"><div className="text-2xl">⚽</div><div className="mt-2 text-2xl font-black text-green-600">+1.000</div><div className="text-sm font-black uppercase text-slate-900">Futsal</div><div className="mt-1 text-xs font-semibold text-slate-500">entrenamientos</div></div>
-            <div className="rounded-2xl border border-violet-200 bg-white p-4 text-center shadow-sm"><div className="text-2xl">🥅</div><div className="mt-2 text-2xl font-black text-violet-600">+2.000</div><div className="text-sm font-black uppercase text-slate-900">Fútbol de campo</div><div className="mt-1 text-xs font-semibold text-slate-500">ejercicios</div></div>
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-center shadow-sm"><div className="text-2xl">🥗</div><div className="mt-2 text-2xl font-black text-emerald-700">+100</div><div className="text-sm font-black uppercase text-slate-900">Planes nutricionales</div><div className="mt-1 text-xs font-semibold text-slate-600">guía educativa</div></div>
-          </div>
+        <div className="mx-auto max-w-5xl px-5 pb-10 pt-6 text-center sm:px-8 sm:pt-10">
+          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[.98] tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">Entrena con <span className="text-orange-500">+5.000 ejercicios</span> en una sola plataforma.</h1>
+        </div>
 
-          <div className="mx-auto mt-10 grid max-w-7xl gap-8 lg:grid-cols-[1fr_.9fr] lg:items-center">
-            <div className="text-center lg:text-left">
-              <span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">Antes de pensar en el precio</span>
-              <h1 className="mt-3 max-w-3xl text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-5xl">Mira exactamente lo que vas a recibir dentro de la plataforma.</h1>
-              <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-slate-600 sm:text-lg">En la presentación te voy a mostrar cómo está organizado todo por dentro, qué incluye cada deporte y por qué tener miles de entrenamientos listos puede cambiar la forma en que entrenas o planificas tus sesiones.</p>
-              <button onClick={openVsl} className="mp-cta mt-7 rounded-2xl bg-orange-500 px-7 py-4 text-base font-black text-white sm:px-9 sm:py-5 sm:text-lg">▶ VER LA PRESENTACIÓN COMPLETA</button>
-              <p className="mt-3 text-xs font-bold text-slate-500">Mira la VSL antes de decidir. La oferta se desbloquea después de 1:25.</p>
-            </div>
-            <button onClick={openVsl} className="group mp-glow mp-video-card relative overflow-hidden rounded-[28px] border-4 border-white bg-slate-950 text-left">
-              <video src={VIDEO_SRC} muted playsInline preload="metadata" className="aspect-video w-full object-cover opacity-90 transition duration-500 group-hover:opacity-100" />
-              <div className="absolute inset-0 grid place-items-center"><span className="grid size-20 place-items-center rounded-full bg-orange-500 text-2xl text-white shadow-2xl transition group-hover:scale-110">▶</span></div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-5 pt-16"><span className="text-sm font-black text-white">Haz clic y mira la VSL</span><span className="mt-1 block text-xs font-semibold text-white/75">La oferta se habilita al 1:25</span></div>
-            </button>
-          </div>
+        <div className="mx-auto max-w-5xl px-0 pb-8 sm:px-6 sm:pb-14">
+          <button onClick={openVsl} className="group mp-glow mp-video-card relative block w-full overflow-hidden rounded-none border-y-4 border-white bg-slate-950 text-left sm:rounded-[28px] sm:border-4">
+            <video src={VIDEO_SRC} poster={videoThumbnail} muted playsInline preload="auto" className="mp-hero-video aspect-video w-full object-cover opacity-95 transition duration-500 group-hover:opacity-100" />
+            <div className="absolute inset-0 grid place-items-center bg-black/10"><span className="grid size-20 place-items-center rounded-full bg-orange-500 text-2xl text-white shadow-2xl transition group-hover:scale-110">▶</span></div>
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-5 pt-16 sm:p-7 sm:pt-20"><span className="text-base font-black text-white sm:text-lg">▶ Mira la presentación completa</span><span className="mt-1 block text-xs font-semibold text-white/80 sm:text-sm">Conoce la plataforma por dentro. La oferta se habilita después de 1:25.</span></div>
+          </button>
         </div>
       </section>
 
-      <section className="mp-vsl-focus border-y border-slate-200 bg-slate-950 py-10 text-white">
-        <div className="mx-auto max-w-4xl px-5 text-center sm:px-8">
-          <span className="text-xs font-black uppercase tracking-[.22em] text-orange-400">Antes de decidir</span>
-          <h2 className="mt-3 text-3xl font-black sm:text-5xl">Mira primero lo que vas a tener dentro.</h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-300">Haz clic en el video. Se abrirá en pantalla completa para que puedas verlo sin distracciones. Después de 1:25, liberamos el resto de la página.</p>
-          <button onClick={openVsl} className="mp-cta mt-6 rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER LA VSL</button>
-          <div className="mt-4 text-[11px] font-bold uppercase tracking-wider text-slate-500">🔒 Contenido de la oferta protegido hasta 1:25</div>
+      <section className="mp-vsl-focus border-y border-slate-200 bg-white px-5 py-10 sm:px-8 sm:py-14">
+        <div className="mx-auto max-w-5xl text-center">
+          <span className="text-xs font-black uppercase tracking-[.22em] text-orange-600">Lo que recibes</span>
+          <h2 className="mt-3 text-3xl font-black sm:text-5xl">+5.000 entrenamientos. 4 deportes. 1 plataforma.</h2>
+          <div className="mx-auto mt-7 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">🏀</div><b className="mt-2 block text-sm">+1.000 Básquetbol</b></div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">🏐</div><b className="mt-2 block text-sm">+1.000 Vóleibol</b></div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">⚽</div><b className="mt-2 block text-sm">+1.000 Futsal</b></div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">🥅</div><b className="mt-2 block text-sm">+2.000 Fútbol</b></div>
+          </div>
+          <div className="mt-4 rounded-2xl bg-orange-50 p-4 text-sm font-black text-orange-800">🥗 +100 planes nutricionales educativos</div>
+          <button onClick={openVsl} className="mp-cta mt-7 rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER LA VSL</button>
+          <div className="mt-4 text-[11px] font-bold uppercase tracking-wider text-slate-400">🔒 La oferta se habilita después de 1:25</div>
         </div>
       </section>
 
