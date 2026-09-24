@@ -152,6 +152,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "+5.000 entrenamientos de básquetbol, vóleibol, futsal y fútbol de campo, más guía nutricional y bonos. Acceso de por vida." },
       { property: "og:title", content: "Plataforma Multideporte Pro" },
       { property: "og:description", content: "Todo lo que necesitas para rendir al máximo en una sola plataforma." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -159,9 +161,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [modalPkg, setModalPkg] = useState<PackageId | null>(null);
-  const [vslOpen, setVslOpen] = useState(false);
-  const [pageUnlocked, setPageUnlocked] = useState(false);
-  const [recommendedBasic, setRecommendedBasic] = useState(false);
   const offersRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -192,13 +191,11 @@ function Index() {
     } catch { /* UTMfy is non-blocking */ }
   }, []);
 
-  const openOffers = () => offersRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  const openVsl = () => setVslOpen(true);
-  const closeVslToOffers = () => { setPageUnlocked(true); setRecommendedBasic(true); window.setTimeout(openOffers, 100); };
   const buy = (pkg: PackageId) => { track("ViewContent", { content_name: pkg === "completo" ? "Oferta Completa" : "Oferta Básica" }); setModalPkg(pkg); };
 
   return (
     <main className="mp-page min-h-screen bg-white text-slate-900">
+      <noscript><img height="1" width="1" style={{ display: "none" }} src="https://www.facebook.com/tr?id=889185807027175&ev=PageView&noscript=1" alt="" /></noscript>
       <section className="mp-hero mp-hero-light relative overflow-hidden">
         <div className="mp-sport-stripe" />
         <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
@@ -207,15 +204,16 @@ function Index() {
         </header>
 
         <div className="mx-auto max-w-5xl px-5 pb-10 pt-6 text-center sm:px-8 sm:pt-10">
-          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[.98] tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">Entrena con <span className="text-orange-500">+5.000 ejercicios</span> en una sola plataforma.</h1>
+          <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[.98] tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">Todo lo que necesitas para <span className="text-orange-500">rendir al máximo</span>, en una sola plataforma.</h1>
+          <p className="mx-auto mt-5 max-w-3xl text-lg font-bold leading-7 text-slate-600 sm:text-2xl">La plataforma completa en video: +5.000 ejercicios organizados por deporte y categoría, listos para aplicar desde cualquier dispositivo.</p>
+          <p className="mt-5 text-sm font-extrabold text-slate-500">Pago 100% seguro · Acceso inmediato · Acceso de por vida</p>
         </div>
 
         <div className="mx-auto max-w-5xl px-0 pb-8 sm:px-6 sm:pb-14">
-          <button onClick={openVsl} className="group mp-glow mp-video-card relative block w-full overflow-hidden rounded-none border-y-4 border-white bg-slate-950 text-left sm:rounded-[28px] sm:border-4">
-            <video src={VIDEO_SRC} poster={videoThumbnail} muted playsInline preload="auto" className="mp-hero-video aspect-video w-full object-cover opacity-95 transition duration-500 group-hover:opacity-100" />
-            <div className="absolute inset-0 grid place-items-center bg-black/10"><span className="grid size-20 place-items-center rounded-full bg-orange-500 text-2xl text-white shadow-2xl transition group-hover:scale-110">▶</span></div>
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-5 pt-16 sm:p-7 sm:pt-20"><span className="text-base font-black text-white sm:text-lg">▶ Mira la presentación completa</span><span className="mt-1 block text-xs font-semibold text-white/80 sm:text-sm">Conoce la plataforma por dentro. La oferta se habilita después de 1:25.</span></div>
-          </button>
+          <div className="mp-glow mp-video-card overflow-hidden rounded-none border-y-4 border-white bg-slate-950 sm:rounded-[28px] sm:border-4">
+            <video src={VIDEO_SRC} poster={videoThumbnail} controls playsInline preload="metadata" controlsList="nodownload" className="aspect-video w-full bg-black object-contain" onPlay={() => track("Lead", { content_name: "Video principal" })} />
+          </div>
+          <p className="mt-4 text-center text-sm font-black text-orange-600">🔥 Mira la plataforma por dentro y descubre todo lo que recibes</p>
         </div>
       </section>
 
@@ -230,14 +228,12 @@ function Index() {
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="text-2xl">🥅</div><b className="mt-2 block text-sm">+2.000 Fútbol</b></div>
           </div>
           <div className="mt-4 rounded-2xl bg-orange-50 p-4 text-sm font-black text-orange-800">🥗 +100 planes nutricionales educativos</div>
-          <button onClick={openVsl} className="mp-cta mt-7 rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER EL VIDEO</button>
-          <div className="mt-4 text-[11px] font-bold uppercase tracking-wider text-slate-400">🔒 La oferta se habilita después de 1:25</div>
+          <a href="#video-principal" onClick={(event) => { event.preventDefault(); document.querySelector("video")?.scrollIntoView({ behavior: "smooth", block: "center" }); }} className="mp-cta mt-7 inline-flex rounded-2xl bg-orange-500 px-7 py-4 font-black text-white">▶ QUIERO VER EL VIDEO</a>
         </div>
       </section>
 
-      <div className={!pageUnlocked ? "mp-locked-area" : ""}>
+      <div>
         <section ref={offersRef} className="mp-value-stack bg-white px-5 py-14 sm:px-8 sm:py-20">
-          {!pageUnlocked && <div className="mp-lock-overlay"><div className="mp-lock-box"><div className="text-3xl">🔒</div><h3 className="mt-3 text-xl font-black">Primero termina la presentación</h3><p className="mt-2 text-sm text-slate-600">La oferta y los valores aparecen después de 1:25 de la VSL.</p><button onClick={openVsl} className="mp-cta mt-5 rounded-xl bg-orange-500 px-6 py-3 text-sm font-black text-white">▶ Continuar viendo</button></div></div>}
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">Ahora sí: mira todo lo que recibes</span><h2 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">Si compraras cada parte por separado, el valor se acumularía rápidamente.</h2><p className="mt-4 text-base leading-7 text-slate-600">Por eso el acceso completo fue pensado como una sola plataforma. Los valores de referencia de abajo son ilustrativos y sirven para mostrar la composición de la oferta; no representan precios anteriores cobrados.</p></div>
             <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -247,26 +243,49 @@ function Index() {
           </div>
         </section>
 
+        <section className="bg-slate-950 px-5 py-12 text-white sm:px-8 sm:py-16">
+          <div className="mx-auto max-w-5xl text-center">
+            <span className="text-xs font-black uppercase tracking-[.2em] text-orange-400">Es momento de cambiar</span>
+            <h2 className="mt-3 text-3xl font-black sm:text-5xl">¿Sigues entrenando sin un sistema real?</h2>
+            <p className="mx-auto mt-5 max-w-3xl leading-7 text-slate-300">Buscar ejercicios sueltos en internet, improvisar cada sesión y avanzar sin una progresión clara te roba horas que podrías invertir entrenando de verdad. Sin orden, incluso el buen contenido pierde valor.</p>
+            <div className="mx-auto mt-7 grid max-w-4xl gap-3 text-left sm:grid-cols-2">
+              <div className="rounded-2xl border border-red-400/30 bg-red-400/10 p-5"><b className="text-red-300">❌ Sin sistema</b><p className="mt-2 text-sm leading-6 text-slate-300">Horas buscando contenido suelto, sin progresión, sin resultados claros.</p></div>
+              <div className="rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-5"><b className="text-emerald-300">✓ Con Multideporte Pro</b><p className="mt-2 text-sm leading-6 text-slate-300">Todo organizado, listo para aplicar, con progresión real.</p></div>
+            </div>
+            <p className="mt-7 font-black text-orange-400">Esto es lo que cambia hoy. ↓</p>
+          </div>
+        </section>
+
         <section className="bg-slate-50 px-5 py-12 sm:px-8 sm:py-16">
           <div className="mx-auto max-w-6xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">La oferta que realmente importa</span><h2 className="mt-3 text-3xl font-black sm:text-5xl">Elige tu nivel de acceso.</h2><p className="mt-3 text-slate-600">Dos formas de entrar. El Completo es la opción para quien quiere tener todo desde el primer día.</p></div>
           <div className="mx-auto mt-9 grid max-w-6xl items-stretch gap-6 lg:grid-cols-[.8fr_1.2fr]">
-            <article className={`mp-card rounded-[28px] bg-white p-7 ring-1 ring-slate-200 sm:p-8 ${recommendedBasic ? "ring-2 ring-orange-400" : ""}`}>
-              <div className="flex items-center justify-between gap-3"><span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-500">Paquete Básico</span>{recommendedBasic && <span className="text-xs font-black text-orange-600">Ideal para empezar</span>}</div>
-              <h3 className="mt-6 text-2xl font-black">Fútbol de Campo</h3><p className="mt-2 text-sm text-slate-500">Para quien quiere concentrarse en fútbol de campo.</p>
-              <ul className="mt-6 space-y-3 text-sm text-slate-700"><li>✓ +2.000 ejercicios de fútbol de campo</li><li>✓ Acceso de por vida</li><li>✓ Contenido organizado</li></ul>
-              <div className="mt-8"><span className="text-sm text-slate-400 line-through">$29,90</span><div className="text-4xl font-black">$5,50 <span className="text-sm font-bold text-slate-400">USD</span></div></div>
-              <button onClick={() => buy("basico")} className="mt-7 w-full rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition hover:-translate-y-0.5">Quiero el Paquete Básico</button>
+            <article className="mp-card rounded-[28px] bg-white p-7 ring-1 ring-slate-200 sm:p-8">
+              <div className="flex items-center justify-between gap-3"><span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-500">Acceso Fútbol</span></div>
+              <h3 className="mt-6 text-2xl font-black">2.000+ Ejercicios de Fútbol</h3><p className="mt-2 text-sm leading-6 text-slate-500">La herramienta completa para entrenadores: una biblioteca profesional, organizada y lista para usar desde el primer día.</p>
+              <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-700"><li>✓ Más de 2.000 ejercicios en PDF por categoría</li><li>✓ Técnica, táctica, preparación física y más</li><li>✓ Videos explicativos para aplicar cada ejercicio</li><li>✓ 30 planificaciones semanales completas</li><li>✓ 300+ sesiones de entrenamiento listas para usar</li><li>✓ Fútbol 360°: femenino, infantil y físico</li><li>✓ Para entrenadores, jugadores, preparadores y padres</li><li>✓ Acceso digital inmediato desde cualquier dispositivo</li></ul>
+              <div className="mt-8"><span className="text-sm text-slate-400 line-through">$29,90</span><div className="text-4xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div></div>
+              <button onClick={() => buy("basico")} className="mt-7 w-full rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition hover:-translate-y-0.5">Quiero el Acceso de Fútbol</button>
             </article>
             <article className="mp-featured relative rounded-[32px] bg-slate-950 p-7 text-white sm:p-9">
               <div className="mp-most-chosen">MÁS ELEGIDO</div><div className="pr-28 text-xs font-black uppercase tracking-[.2em] text-orange-400">Paquete Completo</div><h3 className="mt-5 text-3xl font-black sm:text-4xl">La plataforma completa</h3><p className="mt-2 max-w-xl text-slate-300">Todo el ecosistema multideporte + nutrición + bonos en un solo acceso.</p>
               <ul className="mt-6 grid gap-3 text-sm text-slate-200 sm:grid-cols-2"><li>✓ +1.000 básquetbol</li><li>✓ +1.000 vóleibol</li><li>✓ +1.000 futsal</li><li>✓ +2.000 fútbol de campo</li><li>✓ Guía nutricional +100 planes</li><li>✓ BONO 01: Planificación semanal</li><li>✓ BONO 02: Prevención y recuperación</li><li>✓ BONO 03: Comunidad + futuros deportes</li><li>✓ Acceso de por vida</li></ul>
-              <div className="mt-8 rounded-2xl bg-white/5 p-5"><span className="text-sm text-slate-500 line-through">$74,90</span><div className="text-5xl font-black">$10 <span className="text-sm font-bold text-slate-400">USD</span></div><p className="mt-1 text-sm font-black text-orange-400">Ahorras 87%</p></div>
+               <div className="mt-8 rounded-2xl bg-white/5 p-5"><span className="text-sm text-slate-500 line-through">$74,90</span><div className="text-5xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div><p className="mt-1 text-sm font-black text-orange-400">Precio especial de lanzamiento</p></div>
               <button onClick={() => buy("completo")} className="mp-cta mt-6 w-full rounded-2xl bg-orange-500 px-5 py-5 text-lg font-black text-white">🔥 Quiero la Plataforma Completa →</button><p className="mt-3 text-center text-[11px] text-slate-500">Pago seguro · acceso inmediato · de por vida</p>
             </article>
           </div>
         </section>
 
         <section className="bg-white py-16"><div className="mx-auto max-w-7xl px-5 sm:px-8"><div className="mb-9 text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">4 deportes</span><h2 className="mt-2 text-3xl font-black sm:text-5xl">Todo el campo de juego en un solo acceso.</h2></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{SPORTS.map((sport) => <article key={sport.title} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"><img src={sport.image} alt={sport.title} className="mp-sport-image w-full" loading="lazy"/><div className="p-5"><div className="text-3xl">{sport.icon}</div><h3 className="mt-3 text-lg font-black">{sport.title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{sport.text}</p></div></article>)}</div></div></section>
+
+        <section className="bg-white px-5 pb-16 sm:px-8">
+          <div className="mx-auto max-w-6xl">
+            <div className="mx-auto max-w-3xl text-center"><h2 className="text-3xl font-black sm:text-5xl">Todo en una sola plataforma. Ningún otro lugar donde buscar.</h2><p className="mt-4 leading-7 text-slate-600">No es una colección de archivos sueltos. Es un panel organizado donde cada entrenamiento tiene su video explicativo, separado por deporte y categoría, y disponible desde cualquier dispositivo.</p></div>
+            <div className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 shadow-lg">
+              <div className="flex items-center gap-2 border-b border-slate-200 bg-white px-5 py-4"><span className="size-3 rounded-full bg-red-400"/><span className="size-3 rounded-full bg-amber-400"/><span className="size-3 rounded-full bg-emerald-400"/><b className="ml-3 text-sm">Panel Multideporte Pro</b></div>
+              <div className="grid gap-4 p-5 sm:grid-cols-[180px_1fr]"><aside className="rounded-2xl bg-slate-950 p-4 text-sm font-bold text-white"><p className="text-orange-400">Categorías</p><div className="mt-4 space-y-3 text-slate-300"><p>🏀 Básquetbol</p><p>🏐 Vóleibol</p><p>⚽ Futsal</p><p>🥅 Fútbol</p></div></aside><div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{SPORTS.slice(0, 3).map((sport, index) => <div key={sport.title} className="overflow-hidden rounded-2xl bg-white shadow-sm"><img src={sport.image} alt="Vista previa del entrenamiento" className="aspect-video w-full object-cover"/><div className="p-3 text-xs font-black">▶ Video {index + 1} · Entrenamiento</div></div>)}</div></div>
+            </div>
+          </div>
+        </section>
 
         <section className="bg-orange-50 py-16"><div className="mx-auto max-w-6xl px-5 sm:px-8"><div className="mx-auto max-w-3xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-700">Exclusivo del completo</span><h2 className="mt-3 text-3xl font-black sm:text-5xl">Entrenamiento + recuperación + organización.</h2><p className="mt-4 leading-7 text-slate-600">Incluye +100 planes nutricionales educativos organizados por energía, recuperación y definición, además de tres bonos para complementar la rutina.</p></div><div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"><div className="rounded-2xl bg-white p-5 shadow-sm"><b>+100 planes</b><p className="mt-1 text-sm text-slate-500">Guía nutricional educativa.</p></div><div className="rounded-2xl bg-white p-5 shadow-sm"><b>🎁 BONO 01</b><p className="mt-1 text-sm text-slate-500">Planificación semanal.</p></div><div className="rounded-2xl bg-white p-5 shadow-sm"><b>🛡️ BONO 02</b><p className="mt-1 text-sm text-slate-500">Prevención y recuperación.</p></div><div className="rounded-2xl bg-slate-950 p-5 text-white"><b>🔥 BONO 03</b><p className="mt-1 text-sm text-slate-400">Comunidad + futuros deportes.</p></div></div></div></section>
 
@@ -280,7 +299,6 @@ function Index() {
         <footer className="bg-slate-950 px-5 pb-8 text-center text-xs text-slate-600">Plataforma Multideporte Pro · Contenido digital · Acceso online</footer>
       </div>
 
-      {vslOpen && <VslModal onClose={() => setVslOpen(false)} onUnlocked={closeVslToOffers} />}
       {modalPkg && <ScarcityModal pkg={modalPkg} onClose={() => setModalPkg(null)} />}
     </main>
   );
