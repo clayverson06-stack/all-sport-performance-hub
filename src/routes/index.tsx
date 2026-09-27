@@ -193,6 +193,9 @@ function Index() {
 
   const buy = (pkg: PackageId) => { track("ViewContent", { content_name: pkg === "completo" ? "Oferta Completa" : "Oferta Básica" }); setModalPkg(pkg); };
 
+  const goToOffer = () => { offersRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+
   return (
     <main className="mp-page min-h-screen bg-white text-slate-900">
       <noscript><img height="1" width="1" style={{ display: "none" }} src="https://www.facebook.com/tr?id=889185807027175&ev=PageView&noscript=1" alt="" /></noscript>
@@ -257,24 +260,6 @@ function Index() {
           </div>
         </section>
 
-        <section className="bg-slate-50 px-5 py-12 sm:px-8 sm:py-16">
-          <div className="mx-auto max-w-6xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">La oferta que realmente importa</span><h2 className="mt-3 text-3xl font-black sm:text-5xl">Elige tu nivel de acceso.</h2><p className="mt-3 text-slate-600">Dos formas de entrar. El Completo es la opción para quien quiere tener todo desde el primer día.</p></div>
-          <div className="mx-auto mt-9 grid max-w-6xl items-stretch gap-6 lg:grid-cols-[.8fr_1.2fr]">
-            <article className="mp-card rounded-[28px] bg-white p-7 ring-1 ring-slate-200 sm:p-8">
-              <div className="flex items-center justify-between gap-3"><span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-500">Acceso Fútbol</span></div>
-              <h3 className="mt-6 text-2xl font-black">2.000+ Ejercicios de Fútbol</h3><p className="mt-2 text-sm leading-6 text-slate-500">La herramienta completa para entrenadores: una biblioteca profesional, organizada y lista para usar desde el primer día.</p>
-              <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-700"><li>✓ Más de 2.000 ejercicios en PDF por categoría</li><li>✓ Técnica, táctica, preparación física y más</li><li>✓ Videos explicativos para aplicar cada ejercicio</li><li>✓ 30 planificaciones semanales completas</li><li>✓ 300+ sesiones de entrenamiento listas para usar</li><li>✓ Fútbol 360°: femenino, infantil y físico</li><li>✓ Para entrenadores, jugadores, preparadores y padres</li><li>✓ Acceso digital inmediato desde cualquier dispositivo</li></ul>
-              <div className="mt-8"><span className="text-sm text-slate-400 line-through">$29,90</span><div className="text-4xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div></div>
-              <button onClick={() => buy("basico")} className="mt-7 w-full rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition hover:-translate-y-0.5">Quiero el Acceso de Fútbol</button>
-            </article>
-            <article className="mp-featured relative rounded-[32px] bg-slate-950 p-7 text-white sm:p-9">
-              <div className="mp-most-chosen">MÁS ELEGIDO</div><div className="pr-28 text-xs font-black uppercase tracking-[.2em] text-orange-400">Paquete Completo</div><h3 className="mt-5 text-3xl font-black sm:text-4xl">La plataforma completa</h3><p className="mt-2 max-w-xl text-slate-300">La versión que te da todo, para siempre. Nunca más vas a necesitar buscar en otro lado: tu entrenamiento, tu recuperación y tu nutrición viven aquí.</p>
-              <ul className="mt-6 grid gap-3 text-sm text-slate-200 sm:grid-cols-2"><li>✓ +1.000 básquetbol</li><li>✓ +1.000 vóleibol</li><li>✓ +1.000 futsal</li><li>✓ +2.000 fútbol de campo</li><li>✓ Guía nutricional +100 planes</li><li>✓ BONO 01: Planificación semanal</li><li>✓ BONO 02: Prevención y recuperación</li><li>✓ BONO 03: Comunidad + futuros deportes</li><li>✓ Acceso de por vida</li></ul>
-               <div className="mt-8 rounded-2xl bg-white/5 p-5"><span className="text-sm text-slate-500 line-through">$74,90</span><div className="text-5xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div><p className="mt-1 text-sm font-black text-orange-400">Precio especial de lanzamiento</p></div>
-              <button onClick={() => buy("completo")} className="mp-cta mt-6 w-full rounded-2xl bg-orange-500 px-5 py-5 text-lg font-black text-white">🔥 Quiero la Plataforma Completa →</button><p className="mt-3 text-center text-[11px] text-slate-500">Pago seguro · acceso inmediato · de por vida</p>
-            </article>
-          </div>
-        </section>
 
         <section className="bg-white py-16"><div className="mx-auto max-w-7xl px-5 sm:px-8"><div className="mb-9 text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">4 deportes</span><h2 className="mt-2 text-3xl font-black sm:text-5xl">Todo el campo de juego en un solo acceso.</h2></div><div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{SPORTS.map((sport) => <article key={sport.title} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"><img src={sport.image} alt={sport.title} className="mp-sport-image w-full" loading="lazy"/><div className="p-5"><div className="text-3xl">{sport.icon}</div><h3 className="mt-3 text-lg font-black">{sport.title}</h3><p className="mt-2 text-sm leading-6 text-slate-500">{sport.text}</p></div></article>)}</div></div></section>
 
