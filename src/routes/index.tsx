@@ -281,7 +281,44 @@ function Index() {
 
         <section className="bg-slate-50 py-16"><div className="mx-auto max-w-4xl px-5 sm:px-8"><h2 className="text-center text-3xl font-black sm:text-5xl">Preguntas frecuentes</h2><div className="mt-8 divide-y divide-slate-200 rounded-3xl bg-white px-6 shadow-sm">{FAQS.map(([q, a]) => <details key={q} className="group py-5"><summary className="cursor-pointer list-none pr-8 font-black text-slate-900">{q}<span className="float-right text-orange-500 transition group-open:rotate-45">＋</span></summary><p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">{a}</p></details>)}</div></div></section>
 
-        <section className="bg-slate-950 px-5 py-20 text-center text-white"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-400">Tu próximo entrenamiento empieza aquí</span><h2 className="mx-auto mt-3 max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">Deja de buscar. Empieza a entrenar con un sistema.</h2><p className="mx-auto mt-5 max-w-2xl text-slate-400">Deja de buscar en diez lugares distintos. Todo tu entrenamiento, tu recuperación y tu nutrición, en una sola plataforma, para siempre.</p><button onClick={() => buy("completo")} className="mp-cta mt-8 rounded-2xl bg-orange-500 px-8 py-5 text-lg font-black">Quiero Acceso Completo Ahora →</button></section>
+        <section className="relative overflow-hidden bg-slate-950 px-5 py-16 text-white sm:px-8 sm:py-20">
+          <div className="mx-auto max-w-4xl text-center">
+            <span className="mp-kicker">⚠️ Aviso — léelo antes de seguir bajando</span>
+            <h2 className="mt-5 text-3xl font-black leading-tight tracking-tight sm:text-5xl">El precio de la <span className="text-orange-400">Plataforma Completa</span> no se va a mantener así por mucho tiempo.</h2>
+            <p className="mx-auto mt-5 max-w-3xl text-base font-semibold leading-7 text-slate-300 sm:text-lg">Esto no es marketing vacío: el acceso completo reúne +5.000 entrenamientos, la guía nutricional y 3 bonos con un valor real de $74,90 — y hoy lo entregamos a $6,50. Ese precio existe por una sola razón: llenar la plataforma durante el lanzamiento. Cuando eso pase, el precio sube. Sin aviso previo. Sin prórroga.</p>
+            <div className="mx-auto mt-8 grid max-w-3xl gap-3 text-left sm:grid-cols-3">
+              <div className="rounded-2xl border border-orange-400/30 bg-orange-400/10 p-5"><b className="text-orange-300">⏳ Cada día cuenta</b><p className="mt-2 text-sm leading-6 text-slate-300">Mientras tú lo piensas, otros ya están adentro entrenando con el sistema completo.</p></div>
+              <div className="rounded-2xl border border-orange-400/30 bg-orange-400/10 p-5"><b className="text-orange-300">🚫 No habrá segunda vez</b><p className="mt-2 text-sm leading-6 text-slate-300">Quien deje pasar este precio va a pagar más por exactamente lo mismo.</p></div>
+              <div className="rounded-2xl border border-orange-400/30 bg-orange-400/10 p-5"><b className="text-orange-300">📈 El precio sube</b><p className="mt-2 text-sm leading-6 text-slate-300">Cuando el lanzamiento termine, $6,50 desaparece sin previo aviso.</p></div>
+            </div>
+            <p className="mx-auto mt-8 max-w-3xl text-lg font-black text-white sm:text-xl">¿Cuántas sesiones más vas a improvisar buscando videos sueltos mientras otros entrenan con un sistema real?</p>
+            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-400">La Plataforma Completa es la única versión que reúne los 4 deportes, la nutrición y los bonos en un solo acceso de por vida. Después de este lanzamiento, conseguir todo esto va a costar mucho más.</p>
+            <button onClick={goToOffer} className="mp-cta mt-8 rounded-2xl bg-orange-500 px-7 py-5 text-lg font-black text-white">🔥 QUIERO LA PLATAFORMA COMPLETA ANTES DE QUE SUBA EL PRECIO →</button>
+            <p className="mt-3 text-xs font-bold text-slate-500">El botón te lleva directo a la oferta — solo ahí confirmas tu acceso.</p>
+          </div>
+        </section>
+
+        <section ref={offersRef} id="oferta" className="bg-slate-50 px-5 py-12 sm:px-8 sm:py-16">
+          <div className="mx-auto max-w-6xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">La oferta que realmente importa</span><h2 className="mt-3 text-3xl font-black sm:text-5xl">Elige tu nivel de acceso.</h2><p className="mt-3 text-slate-600">Dos formas de entrar. El Completo es la opción para quien quiere tener todo desde el primer día.</p></div>
+          <div className="mx-auto mt-9 grid max-w-6xl items-stretch gap-6 lg:grid-cols-[.8fr_1.2fr]">
+            <article className="mp-card rounded-[28px] bg-white p-7 ring-1 ring-slate-200 sm:p-8">
+              <div className="flex items-center justify-between gap-3"><span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-slate-500">Acceso Fútbol</span></div>
+              <h3 className="mt-6 text-2xl font-black">2.000+ Ejercicios de Fútbol</h3><p className="mt-2 text-sm leading-6 text-slate-500">La herramienta completa para entrenadores: una biblioteca profesional, organizada y lista para usar desde el primer día.</p>
+              <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-700"><li>✓ Más de 2.000 ejercicios en PDF por categoría</li><li>✓ Técnica, táctica, preparación física y más</li><li>✓ Videos explicativos para aplicar cada ejercicio</li><li>✓ 30 planificaciones semanales completas</li><li>✓ 300+ sesiones de entrenamiento listas para usar</li><li>✓ Fútbol 360°: femenino, infantil y físico</li><li>✓ Para entrenadores, jugadores, preparadores y padres</li><li>✓ Acceso digital inmediato desde cualquier dispositivo</li></ul>
+              <div className="mt-8"><span className="text-sm text-slate-400 line-through">$29,90</span><div className="text-4xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div></div>
+              <button onClick={() => buy("basico")} className="mt-7 w-full rounded-2xl bg-slate-950 px-5 py-4 font-black text-white transition hover:-translate-y-0.5">Quiero el Acceso de Fútbol</button>
+            </article>
+            <article className="mp-featured relative rounded-[32px] bg-slate-950 p-7 text-white sm:p-9">
+              <div className="mp-most-chosen">MÁS ELEGIDO</div><div className="pr-28 text-xs font-black uppercase tracking-[.2em] text-orange-400">Paquete Completo</div><h3 className="mt-5 text-3xl font-black sm:text-4xl">La plataforma completa</h3><p className="mt-2 max-w-xl text-slate-300">La versión que te da todo, para siempre. Nunca más vas a necesitar buscar en otro lado: tu entrenamiento, tu recuperación y tu nutrición viven aquí.</p>
+              <ul className="mt-6 grid gap-3 text-sm text-slate-200 sm:grid-cols-2"><li>✓ +1.000 básquetbol</li><li>✓ +1.000 vóleibol</li><li>✓ +1.000 futsal</li><li>✓ +2.000 fútbol de campo</li><li>✓ Guía nutricional +100 planes</li><li>✓ BONO 01: Planificación semanal</li><li>✓ BONO 02: Prevención y recuperación</li><li>✓ BONO 03: Comunidad + futuros deportes</li><li>✓ Acceso de por vida</li></ul>
+               <div className="mt-8 rounded-2xl bg-white/5 p-5"><span className="text-sm text-slate-500 line-through">$74,90</span><div className="text-5xl font-black">$6,50 <span className="text-sm font-bold text-slate-400">USD</span></div><p className="mt-1 text-sm font-black text-orange-400">Precio especial de lanzamiento</p></div>
+              <button onClick={() => buy("completo")} className="mp-cta mt-6 w-full rounded-2xl bg-orange-500 px-5 py-5 text-lg font-black text-white">🔥 Quiero la Plataforma Completa →</button><p className="mt-3 text-center text-[11px] text-slate-500">Pago seguro · acceso inmediato · de por vida</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="bg-slate-950 px-5 py-20 text-center text-white"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-400">Tu próximo entrenamiento empieza aquí</span><h2 className="mx-auto mt-3 max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">Deja de buscar. Empieza a entrenar con un sistema.</h2><p className="mx-auto mt-5 max-w-2xl text-slate-400">Deja de buscar en diez lugares distintos. Todo tu entrenamiento, tu recuperación y tu nutrición, en una sola plataforma, para siempre.</p><button onClick={goToOffer} className="mp-cta mt-8 rounded-2xl bg-orange-500 px-8 py-5 text-lg font-black">Quiero Acceso Completo Ahora →</button></section>
+
         <footer className="bg-slate-950 px-5 pb-8 text-center text-xs text-slate-600">Plataforma Multideporte Pro · Contenido digital · Acceso online</footer>
       </div>
 
