@@ -237,7 +237,7 @@ function Index() {
       </section>
 
       <div>
-        <section ref={offersRef} className="mp-value-stack bg-white px-5 py-14 sm:px-8 sm:py-20">
+        <section className="mp-value-stack bg-white px-5 py-14 sm:px-8 sm:py-20">
           <div className="mx-auto max-w-6xl">
             <div className="mx-auto max-w-3xl text-center"><span className="text-xs font-black uppercase tracking-[.2em] text-orange-600">Ahora sí: mira todo lo que recibes</span><h2 className="mt-3 text-3xl font-black tracking-tight sm:text-5xl">Si compraras cada parte por separado, el valor se acumularía rápidamente.</h2><p className="mt-4 text-base leading-7 text-slate-600">Por eso el acceso completo fue pensado como una sola plataforma. Los valores de referencia de abajo son ilustrativos y sirven para mostrar la composición de la oferta; no representan precios anteriores cobrados.</p></div>
             <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
